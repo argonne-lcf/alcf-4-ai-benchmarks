@@ -18,7 +18,7 @@ IFS='.' read -ra ADDR <<< "$PBS_JOBID"
 export JOBID=$ADDR
 export PYTHONPATH=$MD:$PYTHONPATH
 export DATE_TAG=$(date +"%Y-%m-%d-%H-%M-%S")
-
+export TORCH_PROFILER_ENABLE=1
 # Architecture setup
 # 7B model configuration
 HIDDEN_SIZE=4096
