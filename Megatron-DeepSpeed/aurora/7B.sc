@@ -12,7 +12,7 @@ export PBS_JOBSIZE=$(cat $PBS_NODEFILE | uniq | wc -l)
 export TRANSFER_PACKAGE=1
 export BUILD=2024-08-29
 
-source ${FILESYSTEM}/Aurora_deployment/AuroraGPT/${BUILD}/conda.sh
+source ${FILESYSTEM}/Aurora_deployment/AuroraGPT/build/${BUILD}/conda.sh
 
 IFS='.' read -ra ADDR <<< "$PBS_JOBID"
 export JOBID=$ADDR
@@ -78,7 +78,12 @@ export CCL_OP_SYNC=1
 export PATH=${FILESYSTEM}/Aurora_deployment/AuroraGPT/soft/:$PATH
 export JOBSIZE=${JOBSIZE:-$PBS_JOBSIZE}
 
-runcmd="mpiexec --pmi=pmix -np $((PBS_JOBSIZE*PPN)) --ppn $PPN --cpu-bind $CPU_BIND $AGPT_ROOT/soft/interposer.sh $AGPT_ROOT/soft/local_rank.sh python3 ${MD}/pretrain_gpt_alcf.py \
+# Unitrace
+export PATH=/home/hzheng/flare/alcf-4/alcf-4-ai-benchmarks/soft/pti-gpu/tools/unitrace/build:$PATH
+export UNITRACE="unitrace --device-timing --host-timing --ccl-summary-report --device-timeline --chrome-mpi-logging --chrome-ccl-logging"
+
+
+runcmd="mpiexec --pmi=pmix -np $((PBS_JOBSIZE*PPN)) --ppn $PPN --cpu-bind $CPU_BIND $AGPT_ROOT/soft/interposer.sh $AGPT_ROOT/soft/local_rank.sh ${UNITRACE} python3 ${MD}/pretrain_gpt_alcf.py \
       --tensor-model-parallel-size ${TP} \
       --pipeline-model-parallel-size ${PP} \
       --num-layers ${NUM_LAYERS} \
