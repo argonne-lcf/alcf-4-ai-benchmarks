@@ -37,7 +37,7 @@ if [ $TRANSFER_PACKAGE -eq 1 ]; then
     
     export PATH=$DST_DIR//anl_2024_q3-official_release/bin/:$PATH
     export PYTHONBASE=$DST_DIR//anl_2024_q3-official_release
-    source $DST_DIR/ccl.sh
+
     which python
     module use /soft/preview/pe/24.180.0-RC4/modulefiles
     module use /opt/aurora/24.086.0/spack/gcc/0.7.0/modulefiles
@@ -54,7 +54,8 @@ if [ $TRANSFER_PACKAGE -eq 1 ]; then
     
     python -m pip install /tmp/ezpz
     export AGPT_ROOT=${DST_DIR}/
-    aprun --pmi=pmix -n ${PBS_JOBSIZE} -N 1 $AGPT_ROOT/soft/interposer.sh $DST_DIR/build_helper.sh    
+    aprun --pmi=pmix -n ${PBS_JOBSIZE} -N 1 $AGPT_ROOT/soft/interposer.sh $DST_DIR/build_helper.sh
+    source $DST_DIR/ccl.sh
 else
     echo "Using package on lustre"
     export AGPT_ROOT=${FILESYSTEM}/Aurora_deployment/AuroraGPT/build/${BUILD}/
