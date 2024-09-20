@@ -4,11 +4,13 @@
 
 ```bash
 ./benchmark.py
-  --backend: [ccl|nccl|rccl|mpi|ddp|hvd|mpi4py]
+  --api: [direct|ddp|hvd|mpi4py]
   --coll: [allreduce|allgather|bcast|alltoall]
   --iters: number of iterations 
   --min_elem_count: min messize size 
   --max_elem_count: max messize size
   --warmup_iters: number of warmup iterations
+  --comm_lib [mpi|nccl|rccl|ccl]
 ```
+
 In the output, it provides the latency, bandwidth for different message sizes specified.
