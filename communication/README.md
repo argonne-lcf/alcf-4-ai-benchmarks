@@ -2,7 +2,7 @@
 
 ./benchmark.py is a wrapper code which will perform different communication benchmarks with different backend. It utizes other communication benchmarks whenever it is possible, including OSU benchmark, NCCL benchmark, RCCL benchmark, and oneCCL benchmark. 
 
-'''bash
+```bash
 ./benchmark.py
   --backend: [ccl|nccl|rccl|mpi|ddp|hvd|mpi4py]
   --coll: [allreduce|allgather|bcast|alltoall]
@@ -10,5 +10,5 @@
   --min_elem_count: min messize size 
   --max_elem_count: max messize size
   --warmup_iters: number of warmup iterations
-'''
+```
 In the output, it provides the latency, bandwidth for different message sizes specified.
